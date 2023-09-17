@@ -1,13 +1,18 @@
-from sqlalchemy.orm import Mapped
+from sqlalchemy import String, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
 
-from core.share.models import Base
+from share.models import Base
 
 
 class Category(Base):
-    name: Mapped[str]
+    __tablename__ = "categories"
+
+    name: Mapped[str] = mapped_column(String(50), unique=True)
 
 
 class Support(Base):
-    category: Mapped[Category]
+    __tablename__ = "supports"
+
+    category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
     username: Mapped[str]
     text: Mapped[str]

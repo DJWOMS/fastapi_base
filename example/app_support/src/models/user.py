@@ -1,16 +1,22 @@
-from sqlalchemy.orm import Mapped
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
 
-from core.share.models import Base
+from share.models import Base
 
 
 class Permission(Base):
+    __tablename__ = "permissions"
+
     name: Mapped[str]
     code: Mapped[int]
 
 
 class User(Base):
+    __tablename__ = "users"
+
     username: Mapped[str]
     email: Mapped[str]
     password: Mapped[str]
-    permissions: Mapped[list[Permission]]
+    permission_id: Mapped[int] = mapped_column(ForeignKey("permissions.id"))
+    # permissions: Mapped[list[Permission]]
 

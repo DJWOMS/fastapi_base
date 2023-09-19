@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
     create_async_engine,
     async_sessionmaker,
-    async_scoped_session)
+    async_scoped_session
+)
 
 from core.config import settings
 
@@ -37,18 +38,6 @@ class DatabaseHelper:
         yield session
         await session.close()
 
-    # async def get_db_session(self):
-    #     from sqlalchemy import exc
-    #
-    #     async with self.session_factory() as session:
-    #         try:
-    #             yield session
-    #             await session.commit()
-    #         except exc.SQLAlchemyError as error:
-    #             await session.rollback()
-    #             raise
-    #         finally:
-    #             await session.close()
     @asynccontextmanager
     async def get_db_session(self):
         from sqlalchemy import exc
@@ -56,7 +45,7 @@ class DatabaseHelper:
         session = self.session_factory()
         try:
             yield session
-            await session.commit()
+            # await session.commit()
         except exc.SQLAlchemyError as error:
             await session.rollback()
             raise

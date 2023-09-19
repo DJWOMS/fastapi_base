@@ -1,7 +1,7 @@
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from share.models import Base
+from ..share.models import Base
 
 
 class Category(Base):

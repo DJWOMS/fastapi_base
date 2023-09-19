@@ -1,4 +1,4 @@
-from share.models import Base
+from ..share.models import Base
 from .support import Category, Support
 from .user import Permission, User
 

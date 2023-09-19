@@ -1,6 +1,10 @@
 from abc import ABC
+from typing import NewType
 
-from core.share.controller_base.base import UserModel
+from share.models import Base
+
+
+UserModel = NewType("UserModel", Base)
 
 
 class AbstractPermission(ABC):

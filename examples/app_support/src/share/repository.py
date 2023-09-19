@@ -64,7 +64,7 @@ class SqlAlchemyRepository(AbstractRepository):
             await session.commit()
             return instance
 
-    async def update(self, data: dict, **filters):
+    async def update(self, data: dict, **filters) -> SqlModel:
         async with self._session_factory() as session:
             if not data:
                 raise DBError(
@@ -75,7 +75,7 @@ class SqlAlchemyRepository(AbstractRepository):
             await session.commit()
             return res.scalar_one()
 
-    async def delete(self, **filters):
+    async def delete(self, **filters) -> None:
         async with self._session_factory() as session:
             result = await session.execute(delete(self.model).filter_by(**filters))
             if result.rowcount == 0:
@@ -84,7 +84,7 @@ class SqlAlchemyRepository(AbstractRepository):
                 )
             await session.commit()
 
-    async def get(self, **filters):
+    async def get(self, **filters) -> SqlModel:
         async with self._session_factory() as session:
             row = await session.execute(select(self.model).filter_by(**filters))
             try:
@@ -121,7 +121,7 @@ class SqlAlchemyRepository(AbstractRepository):
             row = await session.execute(stmt)
             return row.scalars().all()
 
-    async def all(self):
+    async def all(self) -> list[SqlModel] | None:
         return await self.filter()
 
     async def exists(self, **filters) -> bool:

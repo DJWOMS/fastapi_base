@@ -1,26 +1,38 @@
-from fastapi import HTTPException
-from starlette.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-
-from core.database.db_helper import AsyncDatabaseSession
-
-from share.schemas import PyModel
-from share.errors import (
-    AlreadyExistError,
-    DBError,
-    MultipleRowsFoundError,
-    NoRowsFoundError,
-)
-from share.repository import SqlAlchemyRepository
+from ..share.schemas import PyModel
+from ..share.repository import AbstractRepository, SqlModel
 
 
 class BaseService:
-    def __init__(self, repository: SqlAlchemyRepository) -> None:
-        self.repository = repository
+    def __init__(self, repository: AbstractRepository) -> None:
+        self.repository: AbstractRepository = repository
 
-    async def create(self, model: PyModel = None) -> object:
-        return await self.repository.create(model.model_dump())
+    async def create(self, model: PyModel) -> SqlModel:
+        return await self.repository.create(data=model.model_dump())
 
-    # async def bulk_add(self, model: list[PyModel], user: UserModel = None):
+    async def update(self, pk: int, model: PyModel) -> SqlModel:
+        return await self.repository.update(data=model.model_dump(), id=pk)
+
+    async def delete(self, pk: int) -> None:
+        await self.repository.delete(id=pk)
+
+    async def get(self, pk: int) -> SqlModel:
+        return await self.repository.get(id=pk)
+
+    async def filter(
+            self,
+            fields: list[str] | None = None,
+            order: list[str] | None = None,
+            limit: int | None = None,
+            offset: int | None = None
+    ) -> list[SqlModel] | None:
+        return await self.repository.filter(
+            fields=fields,
+            order=order,
+            limit=limit,
+            offset=offset
+        )
+
+    # async def bulk_add(self, model: List[PyModel]):
     #     data = [model_data.model_dump() for model_data in model]
     #     try:
     #         return await self.repository.bulk_create(data)
@@ -34,39 +46,6 @@ class BaseService:
     #         await self.repository.create(data)
     #     return await self.repository.get_single(id=pk)
     #
-    # async def all(self, user: UserModel = None):
+    # async def all(self):
     #     return await self.repository.all()
     #
-    # async def filter(self, user: UserModel = None, filters: dict = None):
-    #     return await self.repository.filter(filters=filters)
-    #
-    # async def retrieve(self, pk, model: PyModel = None, user: UserModel = None):
-    #     try:
-    #         return await self.repository.get_single(id=pk)
-    #     except (NoRowsFoundError, MultipleRowsFoundError):
-    #         raise HTTPException(HTTP_404_NOT_FOUND)
-    #
-    # async def update(self, pk, model: PyModel = None, user: UserModel = None):
-    #     try:
-    #         return await self.repository.update(model.model_dump(), {"id": pk})
-    #     except NoRowsFoundError as e:
-    #         raise HTTPException(HTTP_404_NOT_FOUND, f"{e} does not exist")
-    #     except (DBError, AlreadyExistError) as e:
-    #         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
-    #
-    # async def partial_update(self, pk, model: PyModel = None, user: UserModel = None):
-    #     data = model.model_dump(exclude_unset=True)
-    #     try:
-    #         return await self.repository.update(data, {"id": pk})
-    #     except NoRowsFoundError as e:
-    #         raise HTTPException(HTTP_404_NOT_FOUND, f"{e} does not exist")
-    #     except (DBError, AlreadyExistError) as e:
-    #         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
-    #
-    # async def delete(self, pk, model: PyModel = None, user: UserModel = None):
-    #     try:
-    #         return await self.repository.delete(id=pk)
-    #     except NoRowsFoundError as e:
-    #         raise HTTPException(HTTP_404_NOT_FOUND, f"{e} does not exist")
-
-

@@ -30,17 +30,13 @@ class SqlAlchemyUnitOfWork(UnitOfWork):
         self.session_factory = session_factory
 
     async def __aenter__(self):
-        # print(type(self.session_factory))
         async with self.session_factory() as session:
             self.session = session
-            # self.session = self.session_factory
-            print("SESSION", self.session)
             return self
 
     async def __aexit__(self, *args):
-        # await self.session.rollback()
-        # await self.session.close()
-        pass
+        await self.session.rollback()
+        await self.session.close()
 
     async def commit(self):
         await self.session.commit()

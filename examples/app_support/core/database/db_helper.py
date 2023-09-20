@@ -28,21 +28,11 @@ class DatabaseHelper:
             scopefunc=current_task
         )
 
-    async def get_session(self) -> AsyncSession:
-        async with self.session_factory() as session:
-            yield session
-            await session.close()
-
-    async def get_session_dependency(self) -> AsyncSession:
-        session = self.get_scope_session()
-        yield session
-        await session.close()
-
     @asynccontextmanager
     async def get_db_session(self):
         from sqlalchemy import exc
 
-        session = self.session_factory()
+        session: AsyncSession = self.session_factory()
         try:
             yield session
         except exc.SQLAlchemyError as error:

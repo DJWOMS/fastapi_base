@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from ..schemas.user import PermissionCreate, PermissionResponse
-from ..services.user import PermissionServiceDep
+from ..services.user import permission_service
 
 router = APIRouter(prefix="/permission", tags=["user"])
 
@@ -9,6 +9,5 @@ router = APIRouter(prefix="/permission", tags=["user"])
 @router.post("/")
 async def create_permission(
         data: PermissionCreate,
-        # service: PermissionServiceDep
 ) -> PermissionResponse:
-    return await PermissionServiceDep.create(model=data)
+    return await permission_service.create(model=data)

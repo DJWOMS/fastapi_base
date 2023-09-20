@@ -1,6 +1,6 @@
 from core.database import db_helper
-from share.repository import AbstractRepository
-from share.service import BaseService
+from .repository import AbstractRepository
+from .service import BaseService
 
 
 class GenericService:

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import NewType
 
-from sqlalchemy import delete, insert, update
+from sqlalchemy import delete, update
 from sqlalchemy.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -36,18 +36,6 @@ class AbstractRepository(ABC):
 
     @abstractmethod
     async def get(self, **kwargs):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def filter(self, **filters):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def all(self, **filters):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def exists(self, **filters):
         raise NotImplementedError
 
 

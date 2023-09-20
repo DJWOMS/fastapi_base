@@ -32,21 +32,3 @@ class BaseService:
             limit=limit,
             offset=offset
         )
-
-    # async def bulk_add(self, model: List[PyModel]):
-    #     data = [model_data.model_dump() for model_data in model]
-    #     try:
-    #         return await self.repository.bulk_create(data)
-    #     except AlreadyExistError as e:
-    #         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
-    #
-    # async def get_or_add(self, pk, data: dict):
-    #     try:
-    #         return await self.repository.get_single(id=pk)
-    #     except NoRowsFoundError:
-    #         await self.repository.create(data)
-    #     return await self.repository.get_single(id=pk)
-    #
-    # async def all(self):
-    #     return await self.repository.all()
-    #

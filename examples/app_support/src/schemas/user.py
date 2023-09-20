@@ -27,11 +27,11 @@ class UserCreate(UserBase):
 
 
 class CreateSuperUser(UserBase):
-    email: str
+    email: EmailStr
     password: str
 
 
 class UserResponse(BaseModel):
     id: int
-    email: str
+    email: EmailStr
     permission: PermissionBase

@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 from .interfaces.repository import AbstractRepository
-from .errors import (
+from .exceptions import (
     DBError,
     MultipleRowsFoundError,
     NoRowsFoundError,

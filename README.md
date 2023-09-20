@@ -19,12 +19,11 @@
 
 ### Файлы
 
-- repository.py - repository
-- controllers.py - ядро каждого модуля со всеми endpoints
+- repository.py - работа с БД (Postgres, Redis, MongoDB и т.д.)
 - service.py - специфичная для модуля бизнес-логика
-- models.py - для моделей БД
-- schemas.py - для pydantic моделей
-- routers.py - общие routers для всех контроллеров модуля
+- models.py - моделей для БД
+- schemas.py - pydantic модели
+- routers.py - общие routers для всех контроллеров (endpoints, api) модуля
 - dependencies.py - зависимости для приложения
 - utils.py - функции, не относящиеся к бизнес-логике
 - exceptions.py - специфические для модуля исключения

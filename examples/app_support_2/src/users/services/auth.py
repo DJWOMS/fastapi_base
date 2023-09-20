@@ -1,6 +1,6 @@
 from mock.auth_api import auth_api_mock
 
-from ..share.permissions import UserModel
+from core.share.interfaces.permissions import UserModel
 from .user import user_service
 
 

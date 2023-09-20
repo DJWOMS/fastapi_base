@@ -1,21 +1,23 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, Query
+from fastapi import Depends, HTTPException, Query, APIRouter
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
 
-from ..dependencies.permission import is_admin
-from ..models import User
-from ..schemas.support import (
-    SupportCreate,
-    SupportResponse,
+from src.users.services.permission import is_admin
+from src.users.models import User
+
+from ..schemas import (
     CategoryCreate,
     CategoryResponse,
     CategoryListResponse
 )
-from ..services.support import category_service, support_service
+from ..services import category_service
 
 
-@router.get("/admin/category/exists")
+router = APIRouter(prefix="/admin", tags=["admin"])
+
+
+@router.get("/category/exists")
 async def exists_category_for_name(name: str, user: User = Depends(is_admin)) -> bool:
     try:
         return await category_service.exists(name)
@@ -23,7 +25,7 @@ async def exists_category_for_name(name: str, user: User = Depends(is_admin)) ->
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
 
 
-@router.post("/admin/category")
+@router.post("/category")
 async def create_category(
         data: CategoryCreate,
         user: User = Depends(is_admin)
@@ -34,7 +36,7 @@ async def create_category(
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
 
 
-@router.put("/admin/category/{pk}")
+@router.put("/category/{pk}")
 async def update_category(pk: int, data: CategoryCreate) -> CategoryResponse:
     try:
         return await category_service.update(pk=pk, model=data)
@@ -42,7 +44,7 @@ async def update_category(pk: int, data: CategoryCreate) -> CategoryResponse:
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
 
 
-@router.delete("/admin/category/{pk}", status_code=HTTP_204_NO_CONTENT)
+@router.delete("/category/{pk}", status_code=HTTP_204_NO_CONTENT)
 async def delete_category(pk: int):
     try:
         return await category_service.delete(pk=pk)
@@ -50,7 +52,7 @@ async def delete_category(pk: int):
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
 
 
-@router.get("/admin/category/{pk}")
+@router.get("/category/{pk}")
 async def get_single_category(pk: int) -> CategoryResponse:
     try:
         return await category_service.get(pk=pk)
@@ -58,7 +60,7 @@ async def get_single_category(pk: int) -> CategoryResponse:
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
 
 
-@router.get("/admin/category")
+@router.get("/category")
 async def filter_category(
         fields: Annotated[list, Query()] = [],
         order: Annotated[list, Query()] = [],

@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from ..schemas.user import PermissionCreate, PermissionResponse
+from ..schemas.response.permission import PermissionResponse
+from ..schemas.request.permission import PermissionCreate
 from ..services.user import permission_service
 
 router = APIRouter(prefix="/permission", tags=["user"])

@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 from ..src.models import Base
-from ..core.database.db_config import settings_db
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 
@@ -28,13 +28,6 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
-section = config.config_ini_section
-config.set_section_option(section, "POSTGRES_HOST", settings_db.POSTGRES_HOST)
-config.set_section_option(section, "POSTGRES_PORT", settings_db.POSTGRES_PORT)
-config.set_section_option(section, "POSTGRES_USER", settings_db.POSTGRES_USER)
-config.set_section_option(section, "POSTGRES_DB", settings_db.POSTGRES_DB)
-config.set_section_option(section, "POSTGRES_PASSWORD", settings_db.POSTGRES_PASSWORD)
 
 
 def run_migrations_offline() -> None:

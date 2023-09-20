@@ -1,6 +1,7 @@
-from ..share.repository import SqlAlchemyRepository
+from core.share.repository import SqlAlchemyRepository
 from core.database.db_helper import db_helper
-from ..models.user import User, Permission
+
+from .models import User, Permission
 
 
 class PermissionRepository(SqlAlchemyRepository):

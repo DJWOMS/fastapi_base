@@ -1,42 +1,20 @@
-from abc import ABC, abstractmethod
 from typing import NewType
 
 from sqlalchemy import delete, update
 from sqlalchemy.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from sqlalchemy.orm import load_only
 
-from ..share.errors import (
+from .interfaces.repository import AbstractRepository
+from .errors import (
     DBError,
     MultipleRowsFoundError,
     NoRowsFoundError,
 )
-
-from ..share.models import Base
+from .models import Base
 
 
 SqlModel = NewType("SqlModel", Base)
-
-
-class AbstractRepository(ABC):
-    model = None
-
-    @abstractmethod
-    async def create(self, **kwargs):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def update(self, **kwargs):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def delete(self, **kwargs):
-        raise NotImplementedError
-
-    @abstractmethod
-    async def get(self, **kwargs):
-        raise NotImplementedError
 
 
 class SqlAlchemyRepository(AbstractRepository):
@@ -87,35 +65,3 @@ class SqlAlchemyRepository(AbstractRepository):
                     f"For model {self.model.__name__} with next filters: {filters}"
                 )
         return result
-
-    async def filter(
-        self,
-        fields: list[str] | None = None,
-        order: list[str] | None = None,
-        limit: int | None = None,
-        offset: int | None = None,
-    ) -> list[SqlModel] | None:
-        async with self._session_factory() as session:
-            stmt = select(self.model)
-            if fields:
-                model_fields = [getattr(self.model, field) for field in fields]
-                stmt = stmt.options(load_only(*model_fields))
-            if order:
-                stmt = stmt.order_by(*order)
-            if limit is not None:
-                stmt = stmt.limit(limit)
-            if offset is not None:
-                stmt = stmt.offset(offset)
-
-            row = await session.execute(stmt)
-            return row.scalars().all()
-
-    async def all(self) -> list[SqlModel] | None:
-        return await self.filter()
-
-    async def exists(self, **filters) -> bool:
-        stmt = select(self.model).filter_by(**filters)
-        async with self._session_factory() as session:
-            result = await session.execute(stmt)
-            return result.scalar() is not None
-

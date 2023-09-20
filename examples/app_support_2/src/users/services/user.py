@@ -1,8 +1,8 @@
+from core.share.service import BaseService
+
 from ..models import Permission, User
-from ..share.repository import SqlModel
-from ..share.service import BaseService
-from ..schemas.user import UserCreate
-from ..repositories.user import user_repository, permission_repository
+from ..schemas.request.user import UserCreate
+from ..repositories import user_repository, permission_repository
 
 
 class PermissionService(BaseService):

@@ -1,14 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from starlette.status import HTTP_400_BAD_REQUEST
 
-from ..schemas.support import (
-    SupportCreate,
-    SupportResponse,
-    CategoryCreate,
-    CategoryResponse,
-    CategoryListResponse
-)
-from ..services.support import category_service, support_service
+from ..schemas import SupportCreate, SupportResponse
+from ..services import support_service
 
 router = APIRouter(prefix='/support', tags=["support"])
 

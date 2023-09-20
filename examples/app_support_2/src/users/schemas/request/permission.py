@@ -1,4 +1,4 @@
-from examples.app_support.src.schemas.user import PermissionBase
+from ..base import PermissionBase
 
 
 class PermissionCreate(PermissionBase):

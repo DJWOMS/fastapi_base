@@ -18,17 +18,3 @@ class BaseService:
 
     async def get(self, pk: int) -> SqlModel:
         return await self.repository.get(id=pk)
-
-    async def filter(
-            self,
-            fields: list[str] | None = None,
-            order: list[str] | None = None,
-            limit: int | None = None,
-            offset: int | None = None
-    ) -> list[SqlModel] | None:
-        return await self.repository.filter(
-            fields=fields,
-            order=order,
-            limit=limit,
-            offset=offset
-        )

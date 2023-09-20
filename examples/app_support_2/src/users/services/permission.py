@@ -1,9 +1,9 @@
 from fastapi import Depends, HTTPException
 
-from ..share.permissions import AbstractPermission
+from core.share.interfaces.permissions import AbstractPermission
+from ..models import User
 
-from ..services.auth import AuthService
-from ..models.user import User
+from .auth import AuthService
 
 
 class Permission(AbstractPermission):

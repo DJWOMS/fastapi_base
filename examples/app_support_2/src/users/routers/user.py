@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from starlette.status import HTTP_400_BAD_REQUEST
 
-from ..schemas.user import CreateSuperUser, UserResponse
+from ..schemas.request.user import CreateSuperUser
+from ..schemas.response.user import UserResponse
 from ..services.user import user_service
 
 router = APIRouter(prefix="/user", tags=["user"])

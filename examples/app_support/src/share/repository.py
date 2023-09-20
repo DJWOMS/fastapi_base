@@ -62,6 +62,7 @@ class SqlAlchemyRepository(AbstractRepository):
             instance = self.model(**data)
             session.add(instance)
             await session.commit()
+            await session.refresh(instance)
             return instance
 
     async def update(self, data: dict, **filters) -> SqlModel:

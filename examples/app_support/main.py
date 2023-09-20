@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from src.routers.support import router as support_router
+from src.routers.permission import router as permission_router
+from src.routers.user import router as user_router
 
 
 def get_application() -> FastAPI:
@@ -11,6 +13,8 @@ def get_application() -> FastAPI:
         version=settings.version
     )
     application.include_router(support_router)
+    application.include_router(permission_router)
+    application.include_router(user_router)
     return application
 
 

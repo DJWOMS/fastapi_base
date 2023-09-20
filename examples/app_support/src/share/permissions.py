@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import NewType
 
-from share.models import Base
+from ..share.models import Base
 
 
 UserModel = NewType("UserModel", Base)

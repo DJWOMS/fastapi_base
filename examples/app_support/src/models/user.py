@@ -1,5 +1,5 @@
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from ..share.models import Base
 
@@ -9,6 +9,7 @@ class Permission(Base):
 
     name: Mapped[str]
     code: Mapped[int]
+    users: Mapped["User"] = relationship("User", back_populates="permission")
 
 
 class User(Base):
@@ -18,5 +19,8 @@ class User(Base):
     email: Mapped[str]
     password: Mapped[str]
     permission_id: Mapped[int] = mapped_column(ForeignKey("permissions.id"))
-    # permissions: Mapped[list[Permission]]
-
+    permission: Mapped["Permission"] = relationship(
+        "Permission",
+        back_populates="users",
+        lazy="joined"
+    )

@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
 
+from ..dependencies.permission import is_admin
+from ..models import User
 from ..schemas.support import (
     SupportCreate,
     SupportResponse,
@@ -24,7 +26,7 @@ async def create_support(data: SupportCreate) -> SupportResponse:
 
 
 @router.get("/admin/category/exists")
-async def exists_category_for_name(name: str) -> bool:
+async def exists_category_for_name(name: str, user: User = Depends(is_admin)) -> bool:
     try:
         return await category_service.exists(name)
     except Exception as e:
@@ -32,9 +34,12 @@ async def exists_category_for_name(name: str) -> bool:
 
 
 @router.post("/admin/category")
-async def create_category(data: CategoryCreate) -> CategoryResponse:
+async def create_category(
+        data: CategoryCreate,
+        user: User = Depends(is_admin)
+) -> CategoryResponse:
     try:
-        return await category_service.create(data.model_dump())
+        return await category_service.create(model=data)
     except Exception as e:
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
 

@@ -1,8 +1,9 @@
-from ..share.schemas import PyModel
-from ..share.repository import AbstractRepository, SqlModel
+from .schemas import PyModel
+from .repository import AbstractRepository, SqlModel
 
 
 class BaseService:
+
     def __init__(self, repository: AbstractRepository) -> None:
         self.repository: AbstractRepository = repository
 

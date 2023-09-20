@@ -45,7 +45,6 @@ class DatabaseHelper:
         session = self.session_factory()
         try:
             yield session
-            # await session.commit()
         except exc.SQLAlchemyError as error:
             await session.rollback()
             raise

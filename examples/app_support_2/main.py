@@ -7,15 +7,15 @@ from src.routes import get_apps_router
 
 def get_application() -> FastAPI:
     application = FastAPI(
-        title=settings.project_name,
-        debug=settings.debug,
-        version=settings.version
+        title=settings.PROJECT_NAME,
+        debug=settings.DEBUG,
+        version=settings.VERSION
     )
     application.include_router(get_apps_router())
 
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_allowed_origins,
+        allow_origins=settings.CORS_ALLOWED_ORIGINS.split(" "),
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

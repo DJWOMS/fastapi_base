@@ -6,10 +6,10 @@
 В директории examples находятся примеры проектов.
 
 Структура проекта, где все файлы разбиты по своим модулям. 
-[Пример #1](./examples/app_support)
+- [Пример #1](./examples/app_support)
 
 Структура проекта, где файлы разбиты по приложениям проекта. 
-[Пример #2](./examples/app_support_2)
+- [Пример #2](./examples/app_support_2)
 
 ### Директории и файлы
 
@@ -17,8 +17,7 @@
 - core/database/db_config.py - настройки базы данных
 - core/database/db_helper.py - получение сессии базы данных
 - core/config.py - настройки для проекта
-- share - базовые классы для models, repositories, services и т.д.
-- migrations - директория alembic для миграций
+- migrations (alembic) - директория alembic для миграций
 - migrations/versions - файлы миграций
 - migrations/base.py - файл с импортированными модулями моделей для работы автогенерации миграций
 - migrations/env.py - скрипт alembic для работы миграций
@@ -28,6 +27,26 @@
 - tests - тесты проекта
 - .env - переменные окружения
 - .env.example - пример (шаблон) для файла .env
+- pyproject.toml - файл зависимостей для [poetry](https://python-poetry.org/docs/)
+- poetry.lock - обеспечить согласованность между текущими установленными зависимостями и 
+теми, которые вы указали в файле pyproject.toml
+- requirements.txt - файл зависимостей для pip
+
+### Директория share
+- share - базовые (примеры) классы для models, repositories, services и т.д. которые доступны
+во всём проекте
+- share/interfaces - директория для классов интерфейсов
+- share/interfaces/permissions - абстрактный класс permission
+- share/interfaces/repository - абстрактный класс repository
+- share/exceptions (errors) - классы exceptions
+- share/generic - класс generic для сервисов
+- share/models - класс базовой модели SqlAlchemy
+- share/repository - класс базового repository для SqlAlchemy
+- share/schemas - класс базовой модели Pydantic, с настройкой для интеграция с ORM (Ранее известный 
+как "ORM Mode"/from_orm)
+- share/service - базовый класс сервиса (CRUD) для взаимодействия с repository
+- share/uow - реализация Unit of Work для использования нескольких репозиториев в одной сессии SqlAlchemy
+
 
 ### Файлы приложения
 

@@ -2,6 +2,10 @@
 
 Проект демонстрация организации проекта FastAPI с использованием паттерна Repository. 
 
+- FastAPI
+- SqlAlchemy
+- SQLite
+- Alembic
 
 ## Старт
 ### Virtualenv

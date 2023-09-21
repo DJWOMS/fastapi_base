@@ -2,6 +2,12 @@
 
 Проект демонстрация организации проекта FastAPI с использованием паттерна Repository.
 
+- FastAPI
+- SqlAlchemy
+- Postgres
+- Alembic
+- Docker
+
 ## Старт с Docker
 ```
 docker-compose up --build

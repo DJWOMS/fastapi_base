@@ -2,8 +2,6 @@
 
 ## Общее описание
 
-![Иллюстрация к проекту](/examples/uow.jpg")
-
 <img src="/examples/uow.jpg"/>
 
 ### Примеры

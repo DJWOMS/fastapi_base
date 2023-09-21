@@ -2,6 +2,10 @@
 
 ## Общее описание
 
+![Иллюстрация к проекту](/examples/uow.jpg")
+
+<img src="/examples/uow.jpg"/>
+
 ### Примеры
 В директории examples находятся примеры проектов.
 
@@ -10,6 +14,48 @@
 
 Структура проекта, где файлы разбиты по приложениям проекта. 
 - [Пример #2](./examples/app_support_2)
+
+### Пример структуры проекта
+```
+├── migrations/ или alembic/
+├── core/
+│   ├── databases
+│   │   ├── db_config.py
+│   │   └── db_helper.py
+│   └── config.py
+├── share/ 
+├── src
+│   ├── support
+│   │   ├── router.py
+│   │   ├── schemas.py
+│   │   ├── models.py
+│   │   ├── dependencies.py
+│   │   ├── constants.py
+│   │   ├── exceptions.py
+│   │   ├── repositories.py
+│   │   ├── service.py
+│   │   └── utils.py
+│   └── users
+│   │   ├── router.py
+│   │   ├── schemas.py
+│   │   ├── models.py
+│   │   ├── dependencies.py
+│   │   ├── constants.py
+│   │   ├── exceptions.py
+│   │   ├── repositories.py
+│   │   ├── service.py
+│   │   └── utils.py
+│   ├── routes.py
+│   └── main.py
+├── tests/
+│   ├── users
+│   └── support
+├── pyproject.toml или requirements.txt
+├── .env
+├── .gitignore
+├── logging.ini
+└── alembic.ini
+```
 
 ### Директории и файлы
 
@@ -60,52 +106,4 @@
 - exceptions.py - специфические для модуля исключения
 - constants.py - константы
 
-fastapi-project
-├── alembic/
-├── src
-│ ├── auth
-│ │ ├── router.py
-│ │ ├── schemas.py # pydantic models
-│ │ ├── models.py # db models
-│ │ ├── dependencies.py
-│ │ ├── config.py # local configs
-│ │ ├── constants.py
-│ │ ├── exceptions.py
-│ │ ├── service.py
-│ │ └── utils.py
-│ ├── aws
-│ │ ├── client.py # client model for external service communication
-│ │ ├── schemas.py
-│ │ ├── config.py
-│ │ ├── constants.py
-│ │ ├── exceptions.py
-│ │ └── utils.py
-│ └── posts
-│ │ ├── router.py
-│ │ ├── schemas.py
-│ │ ├── models.py
-│ │ ├── dependencies.py
-│ │ ├── constants.py
-│ │ ├── exceptions.py
-│ │ ├── service.py
-│ │ └── utils.py
-│ ├── config.py # global configs
-│ ├── models.py # global models
-│ ├── exceptions.py # global exceptions
-│ ├── pagination.py # global module e.g. pagination
-│ ├── database.py # db connection related stuff
-│ └── main.py
-├── tests/
-│ ├── auth
-│ ├── aws
-│ └── posts
-├── templates/
-│ └── index.html
-├── requirements
-│ ├── base.txt
-│ ├── dev.txt
-│ └── prod.txt
-├── .env
-├── .gitignore
-├── logging.ini
-└── alembic.in
+

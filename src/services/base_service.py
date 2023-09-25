@@ -1,12 +1,12 @@
 from ..schemas.base_schema import PyModel
 from ..repositories.base_repository import AbstractRepository
-from ..repositories.sqlalchemy_repository import ModelType
+from ..repositories.sqlalchemy_repository import ModelType, SqlAlchemyRepository
 
 
 class BaseService:
 
-    def __init__(self, repository: AbstractRepository) -> None:
-        self.repository: AbstractRepository = repository
+    def __init__(self, repository: SqlAlchemyRepository) -> None:
+        self.repository: SqlAlchemyRepository = repository
 
     async def create(self, model: PyModel) -> ModelType:
         return await self.repository.create(data=model.model_dump())

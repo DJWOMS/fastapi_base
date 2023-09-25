@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from base_model import Base
+from .base_model import Base
 
 
 class SupportModel(Base):

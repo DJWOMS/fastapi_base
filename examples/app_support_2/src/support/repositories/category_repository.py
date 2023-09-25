@@ -3,7 +3,7 @@ from sqlalchemy.orm import load_only
 
 from src.repositories.sqlalchemy_repository import SqlAlchemyRepository, ModelType
 from src.models.category_model import CategoryModel
-from config.database.db_helper import db_helper
+from src.config.database.db_helper import db_helper
 
 from ..schemas.category_schema import CategoryCreate, CategoryUpdate
 

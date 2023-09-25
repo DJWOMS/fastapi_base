@@ -8,10 +8,14 @@ from ..schemas.category_schema import (
     CategoryResponse,
     CategoryListResponse
 )
-from ..services import category_service
-
+from ..services.category_service import category_service
+from ...schemas.user_schema import User
 
 router = APIRouter(prefix="/admin", tags=["admin"])
+
+
+def is_admin():
+    return User(id=1, name="admin")
 
 
 @router.get("/category/exists")

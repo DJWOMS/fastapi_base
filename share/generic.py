@@ -1,4 +1,4 @@
-from core.database import db_helper
+from config.database import db_helper
 from .repository import AbstractRepository
 from .service import BaseService
 

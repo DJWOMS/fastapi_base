@@ -54,40 +54,33 @@
 Так же использование паттерна Репозиторий и UoW позволяет создать правильную структуру для развертывания 
 приложения и внедрения DI, которые как минимум помогают в тестировании проекта.
 
+
+## Структура
+Приложение (app) - отдельная часть логики проекта. Содержит свои контроллеры, сервисы, репозитории,
+зависимости, модели, exceptions и т.д.
+
 ### Пример проекта
 Структура проекта, где файлы разбиты по приложениям проекта. 
-- [Пример #2](./examples/app_support_2)
+- [Пример](./examples/app_support_2)
 
 ### Пример структуры проекта
 ```
-├── migrations/ или alembic/
-├── core/
-│   ├── databases
-│   │   ├── db_config.py
-│   │   └── db_helper.py
-│   └── config.py
-├── share/ 
+├── migrations/
 ├── src
-│   ├── support
-│   │   ├── router.py
-│   │   ├── schemas.py
-│   │   ├── models.py
+│   ├── config/
+│   │   ├── database
+│   │   │   ├── db_config.py
+│   │   │   └── db_helper.py
+│   │   └── project_config.py
+│   ├── support # app
+│   │   ├── support_controller.py
+│   │   ├── support_schema.py
 │   │   ├── dependencies.py
 │   │   ├── constants.py
 │   │   ├── exceptions.py
-│   │   ├── repositories.py
-│   │   ├── service.py
-│   │   └── utils.py
-│   └── users
-│   │   ├── router.py
-│   │   ├── schemas.py
-│   │   ├── models.py
-│   │   ├── dependencies.py
-│   │   ├── constants.py
-│   │   ├── exceptions.py
-│   │   ├── repositories.py
-│   │   ├── service.py
-│   │   └── utils.py
+│   │   ├── support_repository.py
+│   │   ├── support_service.py
+│   └── user # app
 │   ├── routes.py
 │   └── main.py
 ├── tests/
@@ -102,17 +95,32 @@
 
 ### Директории и файлы
 
-- core - директория для общих настроек
-- core/database/db_config.py - настройки базы данных
-- core/database/db_helper.py - получение сессии базы данных
-- core/config.py - настройки для проекта
-- migrations (alembic) - директория alembic для миграций
+- migrations - директория alembic для миграций
 - migrations/versions - файлы миграций
 - migrations/base.py - файл с импортированными модулями моделей для работы автогенерации миграций
 - migrations/env.py - скрипт alembic для работы миграций
-- src - верхний уровень приложения, содержит общие маршруты, main.py, все сервисы (приложения)
+- src/config - директория для общих настроек
+- src/config/database/db_config.py - настройки базы данных
+- src/config/database/db_helper.py - получение сессии базы данных
+- src/config/project_config.py - настройки для проекта
+- src - верхний уровень приложения, содержит общие маршруты, main.py и все приложения
 - src/main.py - корень проекта, который запускает приложение FastAPI
 - src/routes.py - общие routers для всех приложений проекта
+- src/interfaces - директория для классов интерфейсов
+- src/exceptions (errors) - классы exceptions
+- src/models - классы моделей SqlAlchemy
+- src/models/base_model - базовый класс SqlAlchemy
+- src/schemas - общие классы Pydantic
+- src/schemas/base_schema - класс базовой модели Pydantic, с настройкой для интеграция с ORM (Ранее известный 
+как "ORM Mode"/from_orm)
+- src/repositories - классы репозиториев
+- src/repositories/base_repository - класс базового repository
+- src/repositories/sqlalchemy_repository - класс базового repository для SqlAlchemy
+- src/repositories/uow - реализация Unit of Work для использования нескольких репозиториев в одной 
+сессии SqlAlchemy
+- src/services - базовые классы сервисов
+- src/services/generic_service - класс generic для сервисов
+- src/services/base_service - базовый класс сервиса (CRUD) для взаимодействия с repository
 - tests - тесты проекта
 - .env - переменные окружения
 - .env.example - пример (шаблон) для файла .env
@@ -121,32 +129,22 @@
 теми, которые вы указали в файле pyproject.toml
 - requirements.txt - файл зависимостей для pip
 
-### Директория share
-- share - базовые (примеры) классы для models, repositories, services и т.д. которые доступны
-во всём проекте
-- share/interfaces - директория для классов интерфейсов
-- share/interfaces/permissions - абстрактный класс permission
-- share/interfaces/repository - абстрактный класс repository
-- share/exceptions (errors) - классы exceptions
-- share/generic - класс generic для сервисов
-- share/models - класс базовой модели SqlAlchemy
-- share/repository - класс базового repository для SqlAlchemy
-- share/schemas - класс базовой модели Pydantic, с настройкой для интеграция с ORM (Ранее известный 
-как "ORM Mode"/from_orm)
-- share/service - базовый класс сервиса (CRUD) для взаимодействия с repository
-- share/uow - реализация Unit of Work для использования нескольких репозиториев в одной сессии SqlAlchemy
-
-
 ### Файлы приложения
 
-- repository.py - работа с БД (Postgres, Redis, MongoDB и т.д.)
-- service.py - специфичная для модуля бизнес-логика
-- models.py - моделей для БД
-- schemas.py - pydantic модели
+- prefix_repository.py - работа с БД (Postgres, Redis, MongoDB и т.д.)
+- prefix_service.py - специфичная для модуля бизнес-логика
+- prefix_schema.py - pydantic модели
 - routers.py - общие routers для всех контроллеров (endpoints, api) модуля
 - dependencies.py - зависимости для приложения
-- utils.py - функции, не относящиеся к бизнес-логике
 - exceptions.py - специфические для модуля исключения
 - constants.py - константы
 
+## Соглашения
+
+- Поддерживаем плоскую структуру
+- Избегаем длинных названий файлов и используем _ (user_service.py)
+- Приложение называем в единственном числе (session, user)
+- Сущности более одной собираются в папки (services, schemas)
+- Поддерживаем цепочку Controller - Service - Repository
+- Sharеd сущности выносим вне контекстов (entities, repositories)
 

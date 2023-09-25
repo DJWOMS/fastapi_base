@@ -1,4 +1,4 @@
 # flake8: noqa F401
-from core.share.models import Base
-from src.support.models import Category, Support
-from src.users.models import Permission, User
+from examples.app_support_2.src.models.base_model import Base
+from examples.app_support_2.src.models.support_model import SupportModel
+from examples.app_support_2.src.models.category_model import CategoryModel

@@ -1,13 +1,10 @@
 from fastapi import APIRouter
 
-from .support.routers import support, admin
-from .users.routers import permission, user
+from .support.controllers import support_controller, admin_controller
 
 
 def get_apps_router():
     router = APIRouter()
-    router.include_router(admin.router)
-    router.include_router(support.router)
-    router.include_router(permission.router)
-    router.include_router(user.router)
+    router.include_router(admin_controller.router)
+    router.include_router(support_controller.router)
     return router

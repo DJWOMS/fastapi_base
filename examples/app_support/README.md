@@ -9,6 +9,7 @@
 - Docker
 
 ## Старт с Docker
+Переименовать файл `.env.example` в `.env`
 ```
 docker-compose up --build
 ```

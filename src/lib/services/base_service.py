@@ -7,8 +7,8 @@ class BaseService:
 
     """
     repository: SqlAlchemyRepository
-    # def __init__(self, repository: SqlAlchemyRepository) -> None:
-    #     self.repository: SqlAlchemyRepository = repository
+    def __init__(self, repository: SqlAlchemyRepository) -> None:
+        self.repository: SqlAlchemyRepository = repository
 
     async def create(self, data: PyModel, *args, **kwargs) -> ModelType:
         return await self.repository.create(data=data.model_dump())

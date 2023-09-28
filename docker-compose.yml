@@ -1,0 +1,42 @@
+version: "3.9"
+
+x-app: &default-app
+  build: .
+  restart: always
+
+x-env: &env
+  env_file:
+    - .env
+
+services:
+  web:
+    <<: [*default-app, *env]
+    container_name: app-back
+#    expose:
+#      - 8000
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    <<: *env
+    container_name: app-db
+    image: postgres:15.3-alpine
+#    expose:
+#      - 5432
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - apppg:/var/lib/postgresql/data
+
+volumes:
+  apppg:

@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from sqlalchemy import select
 from sqlalchemy.orm import load_only
 
@@ -5,6 +7,13 @@ from src.lib.repositories.sqlalchemy_repository import SqlAlchemyRepository, Mod
 from src.config.database.db_helper import db_helper
 
 from ..models.category_model import CategoryModel
+
+
+ICetegoryRepository = Annotated[ICetegoryRepository, CategoryRepository]
+
+
+class ICetegoryRepository(ABC):
+    pass
 
 
 class CategoryRepository(SqlAlchemyRepository):

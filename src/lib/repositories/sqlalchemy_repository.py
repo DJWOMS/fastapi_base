@@ -1,7 +1,7 @@
 from typing import Type, Optional
 
 from fastapi import Depends
-from sqlalchemy import delete, select, update
+from sqlalchemy import delete, select, update, exc
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...config.database.db_helper import db_helper
@@ -36,7 +36,9 @@ class SqlAlchemyRepository(AbstractRepository):
 
     async def delete(self, **filters) -> None:
         async with self._session_factory() as session:
-            await session.execute(delete(self.model).filter_by(**filters))
+            res = await session.execute(delete(self.model).filter_by(**filters))
+            if res.rowcount == 0:
+                raise exc.NoResultFound("Not found")
             await session.commit()
 
     async def get_single(self, **filters) -> Optional[ModelType] | None:

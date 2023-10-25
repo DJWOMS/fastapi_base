@@ -1,18 +1,20 @@
 from fastapi import HTTPException
 from starlette.status import HTTP_401_UNAUTHORIZED
 
-from ..user.user_schema import UserSchema
+from ..user_schema import UserSchema
 
 
-class AuthService:
+class OAuthService:
+    def __init__(self, role: str):
+        self.role = role
 
     async def auth(self):
         # Код обращения к удаленному сервису авторизации
-        return UserSchema(id=1, role="admin")
+        return UserSchema(id=1, username="John", role="admin")
 
     async def is_admin(self):
         user = await self.auth()
-        if user.role == "admin":
+        if user.role == self.role:
             return user
         raise HTTPException(HTTP_401_UNAUTHORIZED, "Not admin")
 
@@ -21,4 +23,4 @@ class AuthService:
         return self.is_admin()
 
 
-is_admin = AuthService()
+is_admin = AuthService("admin")

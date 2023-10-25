@@ -1,10 +1,11 @@
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Query, APIRouter
+from sqlalchemy import exc
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
 
-from ...auth.auth_service import is_admin
-from ...user.user_schema import UserSchema
+from ...auth.services.auth_service import is_admin
+from ...dto.user_schema import UserSchema
 
 from ..schemas.category_schema import (
     CategoryCreate,
@@ -30,8 +31,11 @@ async def create_category(
         data: CategoryCreate,
         user: UserSchema = Depends(is_admin)
 ) -> CategoryResponse:
+    """Создание категории"""
     try:
         return await category_service.create(model=data)
+    except exc.NoResultFound:
+        raise HTTPException(HTTP_400_BAD_REQUEST, "Category not found")
     except Exception as e:
         raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
 

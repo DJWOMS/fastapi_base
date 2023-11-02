@@ -1,87 +1,54 @@
-from typing import Annotated
-
-from fastapi import Depends, HTTPException, Query, APIRouter
 from sqlalchemy import exc
-from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT
+from fastapi import Depends, HTTPException, APIRouter
+from starlette.status import HTTP_400_BAD_REQUEST, HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
-from ...auth.services.auth_service import is_admin
-from ...dto.user_schema import UserSchema
+from ...dependencies import IsAdmin
 
-from ..schemas.category_schema import (
-    CategoryCreate,
-    CategoryResponse,
-    CategoryListResponse
+from ..dtos.category_dto import (
+    CategoryListDto,
+    CategoryCreateDto,
+    CategoryUpdateDto,
+    CategoryParams,
+    CategoryDto
 )
-from ..services.category_service import category_service
+from ..services.category_service import CategoryService
 
 
-router = APIRouter(prefix="/admin", tags=["admin"])
-
-
-@router.get("/category/exists")
-async def exists_category_for_name(name: str, user: UserSchema = Depends(is_admin)) -> bool:
-    try:
-        return await category_service.exists(name)
-    except Exception as e:
-        raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
+router = APIRouter(prefix="/admin", tags=["admin"], dependencies=[IsAdmin])
 
 
 @router.post("/category")
 async def create_category(
-        data: CategoryCreate,
-        user: UserSchema = Depends(is_admin)
-) -> CategoryResponse:
+        dto: CategoryCreateDto,
+        service: CategoryService = Depends(),
+) -> CategoryDto:
     """Создание категории"""
-    try:
-        return await category_service.create(model=data)
-    except exc.NoResultFound:
-        raise HTTPException(HTTP_400_BAD_REQUEST, "Category not found")
-    except Exception as e:
-        raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
+    return await service.create(dto=dto)
 
 
 @router.put("/category/{pk}")
 async def update_category(
         pk: int,
-        data: CategoryCreate,
-        user: UserSchema = Depends(is_admin)
-) -> CategoryResponse:
+        dto: CategoryUpdateDto,
+        service: CategoryService = Depends()
+) -> CategoryDto:
+    """Обновление категории"""
     try:
-        return await category_service.update(pk=pk, model=data)
-    except Exception as e:
-        raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
+        return await service.update(pk=pk, dto=dto)
+    except exc.NoResultFound:
+        raise HTTPException(HTTP_404_NOT_FOUND, "Категория не найдена.")
 
 
 @router.delete("/category/{pk}", status_code=HTTP_204_NO_CONTENT)
-async def delete_category(pk: int, user: UserSchema = Depends(is_admin)):
-    try:
-        return await category_service.delete(pk=pk)
-    except Exception as e:
-        raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
-
-
-@router.get("/category/{pk}")
-async def get_single_category(pk: int, user: UserSchema = Depends(is_admin)) -> CategoryResponse:
-    try:
-        return await category_service.get(pk=pk)
-    except Exception as e:
-        raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
+async def delete_category(pk: int, service: CategoryService = Depends()):
+    """Удаление категории"""
+    return await service.delete(pk=pk)
 
 
 @router.get("/category")
-async def filter_category(
-        fields: Annotated[list, Query()] = [],
-        order: Annotated[list, Query()] = [],
-        limit: int | None = None,
-        offset: int | None = None,
-        user: UserSchema = Depends(is_admin)
-) -> list[CategoryListResponse] | None:
-    try:
-        return await category_service.filter(
-            fields=fields,
-            order=order,
-            limit=limit,
-            offset=offset
-        )
-    except Exception as e:
-        raise HTTPException(HTTP_400_BAD_REQUEST, str(e))
+async def get_list_category(
+        params: CategoryParams = Depends(),
+        service: CategoryService = Depends()
+) -> list[CategoryListDto]:
+    """Фильтрация категорий"""
+    return await service.get_multi(params=params)

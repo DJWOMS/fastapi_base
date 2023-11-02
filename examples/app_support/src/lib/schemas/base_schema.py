@@ -1,14 +1,10 @@
-from typing import NewType
-
 from pydantic import BaseModel
 
 
 class Base(BaseModel):
-    """Базовая схема Pydantic
-
+    """Базовая схема Pydantic.
+    С поддержкой ORM
     """
     class Config:
         from_attributes = True
 
-
-PyModel = NewType("PyModel", Base)

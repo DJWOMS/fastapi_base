@@ -149,38 +149,6 @@ typing-extensions = ">=4.5.0"
 all = ["email-validator (>=2.0.0)", "httpx (>=0.23.0)", "itsdangerous (>=1.1.0)", "jinja2 (>=2.11.2)", "orjson (>=3.2.1)", "pydantic-extra-types (>=2.0.0)", "pydantic-settings (>=2.0.0)", "python-multipart (>=0.0.5)", "pyyaml (>=5.3.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0)", "uvicorn[standard] (>=0.12.0)"]
 
 [[package]]
-name = "fastapi-pagination"
-version = "0.12.10"
-description = "FastAPI pagination"
-optional = false
-python-versions = ">=3.8,<4.0"
-files = [
-    {file = "fastapi_pagination-0.12.10-py3-none-any.whl", hash = "sha256:7a2fc9c0e019722d636f540f1b02c385be76216b89b44c1b8f0571d88aea398a"},
-    {file = "fastapi_pagination-0.12.10.tar.gz", hash = "sha256:44eff56b749b85235c02fc006b736d50932f0be55628a5240cb29b04adf74a8c"},
-]
-
-[package.dependencies]
-fastapi = ">=0.93.0"
-pydantic = ">=1.9.1"
-
-[package.extras]
-all = ["SQLAlchemy (>=1.3.20)", "asyncpg (>=0.24.0)", "beanie (>=1.11.9,<2.0.0)", "bunnet (>=1.1.0,<2.0.0)", "databases (>=0.6.0)", "django (<5.0.0)", "mongoengine (>=0.23.1,<0.28.0)", "motor (>=2.5.1,<4.0.0)", "orm (>=0.3.1)", "ormar (>=0.11.2)", "piccolo (>=0.89,<0.122)", "pony (>=0.7.16,<0.8.0)", "scylla-driver (>=3.25.6,<4.0.0)", "sqlakeyset (>=2.0.1680321678,<3.0.0)", "sqlmodel (>=0.0.8,<0.0.9)", "tortoise-orm (>=0.16.18,<0.21.0)"]
-asyncpg = ["SQLAlchemy (>=1.3.20)", "asyncpg (>=0.24.0)"]
-beanie = ["beanie (>=1.11.9,<2.0.0)"]
-bunnet = ["bunnet (>=1.1.0,<2.0.0)"]
-databases = ["databases (>=0.6.0)"]
-django = ["databases (>=0.6.0)", "django (<5.0.0)"]
-mongoengine = ["mongoengine (>=0.23.1,<0.28.0)"]
-motor = ["motor (>=2.5.1,<4.0.0)"]
-orm = ["databases (>=0.6.0)", "orm (>=0.3.1)"]
-ormar = ["ormar (>=0.11.2)"]
-piccolo = ["piccolo (>=0.89,<0.122)"]
-scylla-driver = ["scylla-driver (>=3.25.6,<4.0.0)"]
-sqlalchemy = ["SQLAlchemy (>=1.3.20)", "sqlakeyset (>=2.0.1680321678,<3.0.0)"]
-sqlmodel = ["sqlakeyset (>=2.0.1680321678,<3.0.0)", "sqlmodel (>=0.0.8,<0.0.9)"]
-tortoise = ["tortoise-orm (>=0.16.18,<0.21.0)"]
-
-[[package]]
 name = "greenlet"
 version = "2.0.2"
 description = "Lightweight in-process concurrent programming"
@@ -728,4 +696,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "4d850e1b263f96ca1cc26cf604736480422ab259387609fecfb3e47a408389c4"
+content-hash = "83d4c090f73053c1be111c34c7698b317ac2779b9e673b3a080b763c1b57f187"

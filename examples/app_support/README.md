@@ -69,3 +69,9 @@ python main.py
 ```
 http:\\127.0.0.1:8000\docs
 ```
+
+### Alembic создание migrations
+Не выключая контейнеры выполнить команду
+```
+docker exec -it app-net-back alembic revision --autogenerate -m 'название модели или миграции'
+```

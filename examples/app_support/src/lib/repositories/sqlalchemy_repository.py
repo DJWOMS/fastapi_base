@@ -5,7 +5,6 @@ from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...config.database.db_helper import db_helper
-from ..models.base_model import ModelType
 
 from .base_repository import AbstractRepository
 

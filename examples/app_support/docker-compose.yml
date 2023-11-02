@@ -28,13 +28,15 @@ services:
     image: postgres:15.3-alpine
     expose:
       - 5432
+    ports:
+      - 5432:5432
     healthcheck:
       test: pg_isready -d ${POSTGRES_DB} -U ${POSTGRES_USER}
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
-      - appnetpg:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
-  appnetpg:
+  pgdata:

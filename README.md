@@ -238,7 +238,7 @@ docker-compose up --build
 ### Alembic migrate
 Не выключая контейнеры выполнить команду
 ```
-docker exec -it upp-back alembic upgrade head
+docker exec -it app-net-back alembic upgrade head
 ```
 
 ### Перейти по адресу
@@ -249,5 +249,5 @@ http:\\127.0.0.1:8000\docs
 ### Alembic создание migrations
 Не выключая контейнеры выполнить команду
 ```
-docker exec -it upp-back alembic revision --autogenerate -m 'название модели или миграции'
+docker exec -it app-net-back alembic revision --autogenerate -m 'название модели или миграции'
 ```

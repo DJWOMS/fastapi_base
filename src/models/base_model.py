@@ -10,7 +10,9 @@ class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
-        TIMESTAMP(timezone=True), default=func.now(), onupdate=func.now()
+        TIMESTAMP(timezone=True),
+        default=func.now(),
+        onupdate=func.now()
     )
 
     @declared_attr.directive
